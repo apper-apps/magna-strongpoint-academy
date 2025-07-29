@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 import RoleBadge from "@/components/molecules/RoleBadge";
 import { useDarkMode } from "@/hooks/useDarkMode";
-
+import { AuthContext } from "@/App";
 const Header = ({ user, onMenuToggle, className }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { isDark, setIsDark } = useDarkMode();
@@ -81,8 +81,7 @@ const Header = ({ user, onMenuToggle, className }) => {
                   <div className="mt-2">
                     <RoleBadge role={user?.role} />
                   </div>
-                </div>
-                <div className="p-2">
+<div className="p-2">
                   <button className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                     <ApperIcon name="User" className="w-4 h-4" />
                     프로필 설정
@@ -95,7 +94,20 @@ const Header = ({ user, onMenuToggle, className }) => {
                     <ApperIcon name="HelpCircle" className="w-4 h-4" />
                     도움말
                   </button>
+                  <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
+                    <button 
+                      onClick={() => {
+                        const { logout } = useContext(AuthContext);
+                        logout();
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                    >
+                      <ApperIcon name="LogOut" className="w-4 h-4" />
+                      로그아웃
+                    </button>
+                  </div>
                 </div>
+              </div>
               </div>
             )}
           </div>

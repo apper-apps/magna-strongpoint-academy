@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import Header from "@/components/organisms/Header";
 import Sidebar from "@/components/organisms/Sidebar";
-import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/components/ui/Loading";
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, loading } = useAuth();
+  const userState = useSelector((state) => state.user);
+  const user = userState?.user;
+  const loading = false; // Authentication handled by ApperUI
 
   const handleMenuToggle = () => {
     setSidebarOpen(!sidebarOpen);

@@ -1,41 +1,15 @@
-import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 
 export const useAuth = () => {
-const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate auth check
-    const mockUser = {
-      id: "1",
-      name: "김강점",
-      email: "user@example.com",
-      role: "Free_User",
-      joinedAt: new Date("2024-01-15"),
-      progress: {
-        completedSteps: 2,
-        totalSteps: 4,
-        coursesCompleted: 3,
-        totalCourses: 12
-      },
-      subscription: {
-        plan: "free",
-        status: "active",
-        startDate: "2024-01-15T00:00:00.000Z",
-        endDate: null,
-        autoRenew: false
-      }
-    };
-    
-    setTimeout(() => {
-      setUser(mockUser);
-      setLoading(false);
-    }, 1000);
-  }, []);
-
-  const updateUser = (userData) => {
-    setUser(prev => ({ ...prev, ...userData }));
+  const userState = useSelector((state) => state.user);
+  
+  return {
+    user: userState?.user || null,
+    loading: false, // Authentication is managed by ApperUI
+    isAuthenticated: userState?.isAuthenticated || false,
+    updateUser: () => {
+      // User updates are now handled through Redux in App.jsx
+      console.log('User updates handled by Redux store');
+    }
   };
-
-  return { user, loading, updateUser };
 };
