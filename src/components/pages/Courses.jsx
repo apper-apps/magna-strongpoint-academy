@@ -20,12 +20,12 @@ const Courses = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
 
-  const categories = [
-    { value: "all", label: "전체" },
-    { value: "강점 찾기", label: "강점 찾기" },
-    { value: "콘셉트 설계", label: "콘셉트 설계" },
-    { value: "글 시나리오", label: "글 시나리오" },
-    { value: "수익화 실행", label: "수익화 실행" }
+const categories = [
+    { value: "all", label: "전체", slug: "all" },
+    { value: "strength", label: "강점 찾기", slug: "strength" },
+    { value: "concept", label: "콘셉트 설계", slug: "concept" },
+    { value: "writing", label: "글 시나리오", slug: "writing" },
+    { value: "monetization", label: "수익화 실행", slug: "monetization" }
   ];
 
   const levels = [
@@ -115,8 +115,9 @@ const Courses = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="flex flex-col lg:flex-row gap-4">
-          <div className="flex-1">
+<div className="flex flex-col gap-6">
+          {/* Search Bar */}
+          <div className="w-full">
             <SearchBar
               placeholder="강의명, 강사명으로 검색..."
               onSearch={handleSearch}
@@ -124,25 +125,29 @@ const Courses = () => {
             />
           </div>
           
-          <div className="flex gap-4">
-            {/* Category Filter */}
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-            >
+          {/* Category Tabs */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex flex-wrap gap-2">
               {categories.map(category => (
-                <option key={category.value} value={category.value}>
+                <button
+                  key={category.value}
+                  onClick={() => setSelectedCategory(category.value)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                    selectedCategory === category.value
+                      ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25 transform scale-105'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                  }`}
+                >
                   {category.label}
-                </option>
+                </button>
               ))}
-            </select>
-
+            </div>
+            
             {/* Level Filter */}
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-[120px]"
             >
               {levels.map(level => (
                 <option key={level.value} value={level.value}>
