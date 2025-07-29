@@ -33,12 +33,47 @@ export const courseService = {
       .map(course => ({ ...course }));
   },
 
-  async enrollInCourse(courseId, userId) {
+async enrollInCourse(courseId, userId) {
     await delay(250);
     return {
       success: true,
       message: "강의 등록이 완료되었습니다.",
       enrollmentId: Date.now()
+    };
+  },
+
+  async trackVideoProgress(courseId, videoId, progress) {
+    await delay(200);
+    
+    // Store progress tracking data
+    const progressData = {
+      courseId: parseInt(courseId),
+      videoId,
+      progress: Math.round(progress),
+      timestamp: new Date().toISOString(),
+      completed: progress >= 75
+    };
+    
+    // In a real app, this would save to a database
+    console.log('Video progress tracked:', progressData);
+    
+    return {
+      success: true,
+      data: progressData,
+      message: progress >= 75 ? "영상 학습이 완료되었습니다!" : "진도가 저장되었습니다."
+    };
+  },
+
+  async getVideoProgress(courseId, videoId) {
+    await delay(150);
+    
+    // Mock returning saved progress
+    return {
+      courseId: parseInt(courseId),
+      videoId,
+      progress: 0,
+      completed: false,
+      lastWatched: null
     };
   }
 };

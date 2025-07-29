@@ -17,15 +17,23 @@ const Dashboard = () => {
   const [recommendedCourses, setRecommendedCourses] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+const [error, setError] = useState("");
+  const [showNextCourseBanner, setShowNextCourseBanner] = useState(false);
+  const [nextCourse, setNextCourse] = useState(null);
 
   useEffect(() => {
     loadDashboardData();
+    
+    // Check if banner should be shown (from localStorage or app state)
+    const shouldShowBanner = localStorage.getItem('showNextCourseBanner') === 'true';
+    if (shouldShowBanner) {
+      setShowNextCourseBanner(true);
+    }
   }, [user]);
 
   const loadDashboardData = async () => {
     setLoading(true);
-    setError("");
+setError("");
     
     try {
       const [coursesData, postsData] = await Promise.all([
@@ -35,10 +43,37 @@ const Dashboard = () => {
       
       setRecommendedCourses(coursesData);
       setRecentPosts(postsData);
+      
+      // Set next course for banner
+      if (coursesData.length > 0) {
+        setNextCourse(coursesData[0]);
+      }
     } catch (err) {
       setError("데이터를 불러오는 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleVideoComplete = (completionData) => {
+    // Show next course banner when video is completed
+    setShowNextCourseBanner(true);
+    localStorage.setItem('showNextCourseBanner', 'true');
+    
+    // You could also trigger other actions here like updating user progress
+    console.log('Video completed:', completionData);
+  };
+
+  const handleBannerClose = () => {
+    setShowNextCourseBanner(false);
+    localStorage.removeItem('showNextCourseBanner');
+  };
+
+  const handleGoToNextCourse = () => {
+    if (nextCourse) {
+      // Navigate to next course - in real app would use router
+      console.log('Navigate to course:', nextCourse.Id);
+      handleBannerClose();
     }
   };
 
@@ -52,9 +87,54 @@ const Dashboard = () => {
   const courseProgressPercentage = user?.progress
     ? Math.round((user.progress.coursesCompleted / user.progress.totalCourses) * 100)
     : 0;
-
-  return (
+return (
     <div className="p-6 space-y-8">
+      {/* Next Course Banner */}
+      {showNextCourseBanner && nextCourse && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white relative overflow-hidden mb-6"
+          id="next_course_banner"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-green-600/80 to-emerald-700/80"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <ApperIcon name="ArrowRight" className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-1">
+                    다음 추천 과정으로 이동하세요!
+                  </h3>
+                  <p className="text-white/90">
+                    {nextCourse.title} - 계속해서 학습을 진행해보세요
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="secondary"
+                  onClick={handleGoToNextCourse}
+                  className="bg-white text-green-600 hover:bg-gray-100"
+                >
+                  이동하기
+                </Button>
+                <button
+                  onClick={handleBannerClose}
+                  className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                >
+                  <ApperIcon name="X" className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Welcome Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
