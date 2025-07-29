@@ -33,74 +33,129 @@ function AppComponent() {
   const isAuthenticated = userState?.isAuthenticated || false;
   
   // Initialize ApperUI once when the app loads
-  useEffect(() => {
-    const { ApperClient, ApperUI } = window.ApperSDK;
-    
-    const client = new ApperClient({
-      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-    });
-    
-    // Initialize but don't show login yet
-    ApperUI.setup(client, {
-      target: '#authentication',
-      clientId: import.meta.env.VITE_APPER_PROJECT_ID,
-      view: 'both',
-      onSuccess: function (user) {
-        setIsInitialized(true);
-        // CRITICAL: This exact currentPath logic must be preserved in all implementations
-        // DO NOT simplify or modify this pattern as it ensures proper redirection flow
-        let currentPath = window.location.pathname + window.location.search;
-        let redirectPath = new URLSearchParams(window.location.search).get('redirect');
-        const isAuthPage = currentPath.includes('/login') || currentPath.includes('/signup') || 
-                           currentPath.includes('/callback') || currentPath.includes('/error') || 
-                           currentPath.includes('/prompt-password') || currentPath.includes('/reset-password');
+useEffect(() => {
+    const initializeApp = async () => {
+      const { ApperClient, ApperUI } = window.ApperSDK;
+      
+      const client = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      // Load SEO defaults on app initialization
+      try {
+        const { seoDefaultsService } = await import('@/services/api/seoDefaultsService');
+        const { schemaMarkupService } = await import('@/services/api/schemaMarkupService');
         
-        if (user) {
-          // User is authenticated
-          if (redirectPath) {
-            navigate(redirectPath);
-          } else if (!isAuthPage) {
-            if (!currentPath.includes('/login') && !currentPath.includes('/signup')) {
-              navigate(currentPath);
+        const [seoData, schemaData] = await Promise.all([
+          seoDefaultsService.getAll(),
+          schemaMarkupService.getAll()
+        ]);
+        
+        // Apply SEO defaults if available
+        if (seoData.length > 0) {
+          const seoDefaults = seoData[0];
+          const currentTitle = document.title;
+          if (seoDefaults.title_suffix && !currentTitle.includes(seoDefaults.title_suffix)) {
+            document.title = currentTitle + seoDefaults.title_suffix;
+          }
+          
+          // Update meta description if available
+          const metaDesc = document.getElementById('dynamic-description');
+          if (metaDesc && seoDefaults.meta_description) {
+            metaDesc.setAttribute('content', seoDefaults.meta_description);
+          }
+          
+          // Update OG image if available
+          const ogImage = document.getElementById('dynamic-og-image');
+          if (ogImage && seoDefaults.og_image) {
+            ogImage.setAttribute('content', seoDefaults.og_image);
+          }
+        }
+        
+        // Apply schema markup if available
+        if (schemaData.length > 0) {
+          const schemaMarkup = schemaData[0];
+          const structuredData = document.getElementById('structured-data');
+          if (structuredData) {
+            const schema = {
+              "@context": "https://schema.org",
+              "@type": schemaMarkup.type || "Course",
+              "provider": {
+                "@type": "Organization", 
+                "name": schemaMarkup.provider || "JuntaeSchool"
+              }
+            };
+            structuredData.textContent = JSON.stringify(schema, null, 2);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading SEO configuration:', error);
+      }
+      
+      // Initialize ApperUI
+      ApperUI.setup(client, {
+        target: '#authentication',
+        clientId: import.meta.env.VITE_APPER_PROJECT_ID,
+        view: 'both',
+        onSuccess: function (user) {
+          setIsInitialized(true);
+          // CRITICAL: This exact currentPath logic must be preserved in all implementations
+          // DO NOT simplify or modify this pattern as it ensures proper redirection flow
+          let currentPath = window.location.pathname + window.location.search;
+          let redirectPath = new URLSearchParams(window.location.search).get('redirect');
+          const isAuthPage = currentPath.includes('/login') || currentPath.includes('/signup') || 
+                             currentPath.includes('/callback') || currentPath.includes('/error') || 
+                             currentPath.includes('/prompt-password') || currentPath.includes('/reset-password');
+          
+          if (user) {
+            // User is authenticated
+            if (redirectPath) {
+              navigate(redirectPath);
+            } else if (!isAuthPage) {
+              if (!currentPath.includes('/login') && !currentPath.includes('/signup')) {
+                navigate(currentPath);
+              } else {
+                navigate('/dashboard');
+              }
             } else {
               navigate('/dashboard');
             }
+            // Store user information in Redux
+            dispatch(setUser(JSON.parse(JSON.stringify(user))));
           } else {
-            navigate('/dashboard');
-          }
-          // Store user information in Redux
-          dispatch(setUser(JSON.parse(JSON.stringify(user))));
-        } else {
-          // User is not authenticated
-          if (!isAuthPage) {
-            navigate(
-              currentPath.includes('/signup')
-                ? `/signup?redirect=${currentPath}`
-                : currentPath.includes('/login')
-                ? `/login?redirect=${currentPath}`
-                : '/login'
-            );
-          } else if (redirectPath) {
-            if (
-              !['error', 'signup', 'login', 'callback', 'prompt-password', 'reset-password'].some((path) => currentPath.includes(path))
-            ) {
-              navigate(`/login?redirect=${redirectPath}`);
-            } else {
+            // User is not authenticated
+            if (!isAuthPage) {
+              navigate(
+                currentPath.includes('/signup')
+                  ? `/signup?redirect=${currentPath}`
+                  : currentPath.includes('/login')
+                  ? `/login?redirect=${currentPath}`
+                  : '/login'
+              );
+            } else if (redirectPath) {
+              if (
+                !['error', 'signup', 'login', 'callback', 'prompt-password', 'reset-password'].some((path) => currentPath.includes(path))
+              ) {
+                navigate(`/login?redirect=${redirectPath}`);
+              } else {
+                navigate(currentPath);
+              }
+            } else if (isAuthPage) {
               navigate(currentPath);
+            } else {
+              navigate('/login');
             }
-          } else if (isAuthPage) {
-            navigate(currentPath);
-          } else {
-            navigate('/login');
+            dispatch(clearUser());
           }
-          dispatch(clearUser());
+        },
+        onError: function(error) {
+          console.error("Authentication failed:", error);
         }
-      },
-      onError: function(error) {
-        console.error("Authentication failed:", error);
-      }
-    });
+      });
+    };
+    
+    initializeApp();
   }, []);// No props and state should be bound
   
   // Authentication methods to share via context

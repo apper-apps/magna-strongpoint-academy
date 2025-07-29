@@ -9,9 +9,10 @@ import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import { useAuth } from "@/hooks/useAuth";
 import { courseService } from "@/services/api/courseService";
-
+import { useSEO } from "@/hooks/useSEO";
 const Courses = () => {
   const { user } = useAuth();
+  const { updatePageSEO, updateStructuredData } = useSEO();
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,8 +36,27 @@ const levels = [
     { value: "advanced", label: "고급" }
   ];
 
-  useEffect(() => {
+useEffect(() => {
     loadCourses();
+    
+    // Update SEO for courses page
+    updatePageSEO(
+      "강의 목록",
+      "4단계 학습 과정을 통해 강점을 수익으로 만들어보세요. 텍스트 인플루언서가 되는 가장 빠른 방법을 배워보세요.",
+      "/images/courses-og.png"
+    );
+    
+    // Update structured data for course listing
+    updateStructuredData({
+      "@type": "CourseList",
+      "name": "준태스쿨 강의 목록",
+      "description": "4단계 학습 과정을 통해 강점을 수익으로 만들어보세요",
+      "provider": {
+        "@type": "Organization",
+        "name": "JuntaeSchool",
+        "url": "https://juntaeschool.com"
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -47,9 +67,33 @@ filterCourses();
     setLoading(true);
     setError("");
     
-    try {
+try {
       const data = await courseService.getAll();
       setCourses(data);
+      
+      // Update structured data with actual course data
+      if (data && data.length > 0) {
+        updateStructuredData({
+          "@type": "ItemList",
+          "numberOfItems": data.length,
+          "itemListElement": data.slice(0, 5).map((course, index) => ({
+            "@type": "Course",
+            "position": index + 1,
+            "name": course.title,
+            "description": course.description,
+            "provider": {
+              "@type": "Organization",
+              "name": "JuntaeSchool"
+            },
+            "educationalLevel": course.level,
+            "courseMode": "온라인",
+            "instructor": {
+              "@type": "Person",
+              "name": course.instructor
+            }
+          }))
+        });
+      }
     } catch (err) {
       setError("강의를 불러오는 중 오류가 발생했습니다.");
     } finally {
