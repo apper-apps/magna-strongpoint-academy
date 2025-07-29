@@ -1,15 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import RoleBadge from "@/components/molecules/RoleBadge";
-import ApperIcon from "@/components/ApperIcon";
 import { courseService } from "@/services/api/courseService";
+import ApperIcon from "@/components/ApperIcon";
+import RoleBadge from "@/components/molecules/RoleBadge";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const CourseCard = ({ course, userRole = "Free_User", className }) => {
   const [loading, setLoading] = useState(false);
-
+  const [imageError, setImageError] = useState(false);
   const canAccess = () => {
     const roleHierarchy = { "Free_User": 0, "Premium": 1, "Master": 2 };
     return roleHierarchy[userRole] >= roleHierarchy[course.requiredRole];
@@ -45,12 +45,25 @@ const CourseCard = ({ course, userRole = "Free_User", className }) => {
       className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden group ${className}`}
     >
       {/* Thumbnail */}
-      <div className="relative aspect-video bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600">
-        <img
-          src={course.thumbnail}
-          alt={course.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+<div className="relative aspect-video bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600">
+        {!imageError ? (
+          <img
+            src={course.thumbnail}
+            alt={course.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={() => setImageError(true)}
+            onLoad={() => setImageError(false)}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-800 dark:to-primary-900 group-hover:scale-105 transition-transform duration-300">
+            <div className="text-center p-4">
+              <ApperIcon name="Image" size={48} className="text-primary-400 dark:text-primary-600 mx-auto mb-2" />
+              <p className="text-sm font-medium text-primary-600 dark:text-primary-400 line-clamp-2">
+                {course.title}
+              </p>
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         
         {/* Duration badge */}
