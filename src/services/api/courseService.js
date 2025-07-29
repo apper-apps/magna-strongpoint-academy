@@ -10,7 +10,7 @@ export const courseService = {
       });
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "description" } },
@@ -23,7 +23,9 @@ export const courseService = {
           { field: { Name: "rating" } },
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
-          { field: { Name: "Tags" } }
+          { field: { Name: "Tags" } },
+          { field: { Name: "difficulty" } },
+          { field: { Name: "status" } }
         ]
       };
 
@@ -56,7 +58,7 @@ export const courseService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
 
-      const params = {
+const params = {
         fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
@@ -70,7 +72,9 @@ export const courseService = {
           { field: { Name: "rating" } },
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
-          { field: { Name: "Tags" } }
+          { field: { Name: "Tags" } },
+          { field: { Name: "difficulty" } },
+          { field: { Name: "status" } }
         ]
       };
 
@@ -102,8 +106,7 @@ export const courseService = {
         apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
-
-      const params = {
+const params = {
         fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
@@ -117,7 +120,9 @@ export const courseService = {
           { field: { Name: "rating" } },
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
-          { field: { Name: "Tags" } }
+          { field: { Name: "Tags" } },
+          { field: { Name: "difficulty" } },
+          { field: { Name: "status" } }
         ],
         where: [
           {
@@ -166,7 +171,7 @@ export const courseService = {
       );
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "description" } },
@@ -179,7 +184,9 @@ export const courseService = {
           { field: { Name: "rating" } },
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
-          { field: { Name: "Tags" } }
+          { field: { Name: "Tags" } },
+          { field: { Name: "difficulty" } },
+          { field: { Name: "status" } }
         ],
         where: [
           {

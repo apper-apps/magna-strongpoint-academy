@@ -16,10 +16,10 @@ const Courses = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
-
+  const [selectedStatus, setSelectedStatus] = useState("all");
 const categories = [
     { value: "all", label: "전체", slug: "all" },
     { value: "strength", label: "강점 찾기", slug: "strength" },
@@ -28,11 +28,11 @@ const categories = [
     { value: "monetization", label: "수익화 실행", slug: "monetization" }
   ];
 
-  const levels = [
+const levels = [
     { value: "all", label: "전체 레벨" },
-    { value: "초급", label: "초급" },
-    { value: "중급", label: "중급" },
-    { value: "고급", label: "고급" }
+    { value: "beginner", label: "초급" },
+    { value: "intermediate", label: "중급" },
+    { value: "advanced", label: "고급" }
   ];
 
   useEffect(() => {
@@ -40,8 +40,8 @@ const categories = [
   }, []);
 
   useEffect(() => {
-    filterCourses();
-  }, [courses, searchQuery, selectedCategory, selectedLevel]);
+filterCourses();
+  }, [courses, searchQuery, selectedCategory, selectedLevel, selectedStatus]);
 
   const loadCourses = async () => {
     setLoading(true);
@@ -75,8 +75,12 @@ const categories = [
     }
 
     // Level filter
-    if (selectedLevel !== "all") {
-      filtered = filtered.filter(course => course.level === selectedLevel);
+if (selectedLevel !== "all") {
+      filtered = filtered.filter(course => course.difficulty === selectedLevel);
+    }
+
+    if (selectedStatus !== "all") {
+      filtered = filtered.filter(course => course.status === selectedStatus);
     }
 
     setFilteredCourses(filtered);
@@ -144,7 +148,7 @@ const categories = [
             </div>
             
             {/* Level Filter */}
-            <select
+<select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-[120px]"
@@ -154,6 +158,23 @@ const categories = [
                   {level.label}
                 </option>
               ))}
+            </select>
+          </div>
+
+          {/* Status Filter */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              진행 상태
+            </label>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-[120px]"
+            >
+              <option value="all">전체 상태</option>
+              <option value="not_started">시작 전</option>
+              <option value="in_progress">진행 중</option>
+              <option value="completed">완료</option>
             </select>
           </div>
         </div>
@@ -166,10 +187,11 @@ const categories = [
           description="다른 검색어나 필터를 시도해보세요."
           icon="Search"
           actionLabel="필터 초기화"
-          onAction={() => {
+onAction={() => {
             setSearchQuery("");
             setSelectedCategory("all");
             setSelectedLevel("all");
+            setSelectedStatus("all");
           }}
         />
       ) : (
