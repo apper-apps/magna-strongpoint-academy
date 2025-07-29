@@ -5,9 +5,9 @@ import RoleBadge from "@/components/molecules/RoleBadge";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { AuthContext } from "@/App";
 const Header = ({ user, onMenuToggle, className }) => {
-  const [showUserMenu, setShowUserMenu] = useState(false);
+const [showUserMenu, setShowUserMenu] = useState(false);
   const { isDark, setIsDark } = useDarkMode();
-
+  const { logout } = useContext(AuthContext);
   return (
     <header className={cn(
       "bg-white/95 dark:bg-dark-surface/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50",
@@ -96,8 +96,7 @@ const Header = ({ user, onMenuToggle, className }) => {
                   </button>
                   <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
                     <button 
-                      onClick={() => {
-                        const { logout } = useContext(AuthContext);
+onClick={() => {
                         logout();
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
