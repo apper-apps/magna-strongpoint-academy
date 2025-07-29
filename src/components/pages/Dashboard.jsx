@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { challengeService } from "@/services/api/challengeService";
 import { communityService } from "@/services/api/communityService";
-import { courseService } from "@/services/api/courseService";
+import { recommendationService } from "@/services/api/recommendationService";
 import ApperIcon from "@/components/ApperIcon";
 import ProgressRing from "@/components/molecules/ProgressRing";
 import RoleBadge from "@/components/molecules/RoleBadge";
@@ -35,13 +35,13 @@ useEffect(() => {
     }
   }, [user]);
 
-  const loadDashboardData = async () => {
+const loadDashboardData = async () => {
     setLoading(true);
     setError("");
     
     try {
       const [coursesData, postsData] = await Promise.all([
-        courseService.getRecommended(user?.role),
+        recommendationService.getRecommendedForUser(user?.userId, user?.role, 3),
         communityService.getPopular()
       ]);
       
@@ -386,7 +386,7 @@ return (
         </motion.section>
       )}
 
-      {/* Recommended Courses */}
+{/* Recommended Courses */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -395,7 +395,7 @@ return (
       >
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            추천 강의
+            추천 강좌
           </h2>
           <Button variant="outline" rightIcon="ArrowRight">
             모든 강의 보기
