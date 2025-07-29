@@ -1,0 +1,44 @@
+[
+  {
+    "Id": 1,
+    "name": "김강점",
+    "email": "user@strongpoint.com",
+    "role": "Premium",
+    "joinedAt": "2024-01-15T00:00:00.000Z",
+    "progress": {
+      "completedSteps": 2,
+      "totalSteps": 4,
+      "coursesCompleted": 3,
+      "totalCourses": 12
+    },
+    "avatar": "/api/placeholder/64/64"
+  },
+  {
+    "Id": 2,
+    "name": "이작가",
+    "email": "writer@strongpoint.com",
+    "role": "Master",
+    "joinedAt": "2023-11-20T00:00:00.000Z",
+    "progress": {
+      "completedSteps": 4,
+      "totalSteps": 4,
+      "coursesCompleted": 12,
+      "totalCourses": 12
+    },
+    "avatar": "/api/placeholder/64/64"
+  },
+  {
+    "Id": 3,
+    "name": "박초보",
+    "email": "newbie@strongpoint.com",
+    "role": "Free_User",
+    "joinedAt": "2024-03-01T00:00:00.000Z",
+    "progress": {
+      "completedSteps": 1,
+      "totalSteps": 4,
+      "coursesCompleted": 1,
+      "totalCourses": 12
+    },
+    "avatar": "/api/placeholder/64/64"
+  }
+]

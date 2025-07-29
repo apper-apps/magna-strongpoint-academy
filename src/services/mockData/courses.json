@@ -1,0 +1,281 @@
+[
+  {
+    "Id": 1,
+    "title": "1단계: 나만의 강점 찾기",
+    "description": "개인의 고유한 강점을 발견하고 분석하는 체계적인 방법론을 학습합니다.",
+    "category": "강점 찾기",
+    "requiredRole": "Free_User",
+    "duration": 120,
+    "level": "초급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "김강점 대표",
+    "rating": 4.9,
+    "studentsCount": 1250,
+    "videos": [
+      {
+        "Id": 1,
+        "title": "강점의 정의와 중요성",
+        "videoId": "strength-definition-101",
+        "duration": 25,
+        "order": 1
+      },
+      {
+        "Id": 2,
+        "title": "강점 발견 워크시트 활용법",
+        "videoId": "strength-worksheet-102",
+        "duration": 35,
+        "order": 2
+      },
+      {
+        "Id": 3,
+        "title": "실전 강점 분석 사례",
+        "videoId": "strength-analysis-103",
+        "duration": 40,
+        "order": 3
+      },
+      {
+        "Id": 4,
+        "title": "강점을 활용한 포지셔닝",
+        "videoId": "strength-positioning-104",
+        "duration": 20,
+        "order": 4
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "title": "2단계: 콘셉트 설계 마스터클래스",
+    "description": "발견한 강점을 바탕으로 독창적인 콘텐츠 콘셉트를 설계하는 전략을 배웁니다.",
+    "category": "콘셉트 설계",
+    "requiredRole": "Premium",
+    "duration": 180,
+    "level": "중급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "이콘셉트 강사",
+    "rating": 4.8,
+    "studentsCount": 850,
+    "videos": [
+      {
+        "Id": 5,
+        "title": "콘셉트의 핵심 요소",
+        "videoId": "concept-core-201",
+        "duration": 30,
+        "order": 1
+      },
+      {
+        "Id": 6,
+        "title": "타겟 오디언스 정의하기",
+        "videoId": "target-audience-202",
+        "duration": 45,
+        "order": 2
+      },
+      {
+        "Id": 7,
+        "title": "차별화 포인트 발굴",
+        "videoId": "differentiation-203",
+        "duration": 50,
+        "order": 3
+      },
+      {
+        "Id": 8,
+        "title": "콘셉트 검증 방법론",
+        "videoId": "concept-validation-204",
+        "duration": 35,
+        "order": 4
+      },
+      {
+        "Id": 9,
+        "title": "콘셉트 브랜딩 전략",
+        "videoId": "concept-branding-205",
+        "duration": 20,
+        "order": 5
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "title": "3단계: 글 시나리오 작성법",
+    "description": "독자의 마음을 사로잡는 스토리텔링 기법과 글 구성 전략을 마스터합니다.",
+    "category": "글 시나리오",
+    "requiredRole": "Premium",
+    "duration": 200,
+    "level": "중급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "박시나리오 작가",
+    "rating": 4.9,
+    "studentsCount": 920,
+    "videos": [
+      {
+        "Id": 10,
+        "title": "스토리텔링의 기본 구조",
+        "videoId": "storytelling-basics-301",
+        "duration": 40,
+        "order": 1
+      },
+      {
+        "Id": 11,
+        "title": "후킹 기법과 도입부 작성",
+        "videoId": "hooking-techniques-302",
+        "duration": 35,
+        "order": 2
+      },
+      {
+        "Id": 12,
+        "title": "갈등과 해결의 드라마틱 구성",
+        "videoId": "conflict-resolution-303",
+        "duration": 45,
+        "order": 3
+      },
+      {
+        "Id": 13,
+        "title": "감정 몰입을 위한 디테일 기법",
+        "videoId": "emotional-details-304",
+        "duration": 40,
+        "order": 4
+      },
+      {
+        "Id": 14,
+        "title": "클라이맥스와 마무리 전략",
+        "videoId": "climax-ending-305",
+        "duration": 40,
+        "order": 5
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "title": "4단계: 수익화 실행 전략",
+    "description": "완성된 콘텐츠를 실제 수익으로 연결하는 다양한 비즈니스 모델과 실행 방법을 학습합니다.",
+    "category": "수익화 실행",
+    "requiredRole": "Master",
+    "duration": 240,
+    "level": "고급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "최수익화 전문가",
+    "rating": 4.9,
+    "studentsCount": 650,
+    "videos": [
+      {
+        "Id": 15,
+        "title": "콘텐츠 수익화 모델 분석",
+        "videoId": "monetization-models-401",
+        "duration": 50,
+        "order": 1
+      },
+      {
+        "Id": 16,
+        "title": "플랫폼별 수익화 전략",
+        "videoId": "platform-strategies-402",
+        "duration": 45,
+        "order": 2
+      },
+      {
+        "Id": 17,
+        "title": "구독/멤버십 모델 구축",
+        "videoId": "subscription-model-403",
+        "duration": 40,
+        "order": 3
+      },
+      {
+        "Id": 18,
+        "title": "광고 및 협찬 수익 최적화",
+        "videoId": "advertising-revenue-404",
+        "duration": 35,
+        "order": 4
+      },
+      {
+        "Id": 19,
+        "title": "개인 브랜드 확장 전략",
+        "videoId": "brand-expansion-405",
+        "duration": 40,
+        "order": 5
+      },
+      {
+        "Id": 20,
+        "title": "장기적인 수익 포트폴리오",
+        "videoId": "revenue-portfolio-406",
+        "duration": 30,
+        "order": 6
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "title": "블로그 글쓰기 기초",
+    "description": "블로그를 통한 브랜딩과 수익화의 첫걸음을 배웁니다.",
+    "category": "글 시나리오",
+    "requiredRole": "Free_User",
+    "duration": 90,
+    "level": "초급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "정블로그 에디터",
+    "rating": 4.7,
+    "studentsCount": 1800,
+    "videos": [
+      {
+        "Id": 21,
+        "title": "블로그 플랫폼 선택하기",
+        "videoId": "blog-platform-501",
+        "duration": 25,
+        "order": 1
+      },
+      {
+        "Id": 22,
+        "title": "포스팅 주제 발굴법",
+        "videoId": "blog-topics-502",
+        "duration": 30,
+        "order": 2
+      },
+      {
+        "Id": 23,
+        "title": "SEO 친화적 글쓰기",
+        "videoId": "seo-writing-503",
+        "duration": 35,
+        "order": 3
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "title": "뉴스레터 마케팅 전략",
+    "description": "이메일 뉴스레터를 통한 팬층 구축과 수익 창출 방법을 학습합니다.",
+    "category": "수익화 실행",
+    "requiredRole": "Premium",
+    "duration": 150,
+    "level": "중급",
+    "thumbnail": "/api/placeholder/400/225",
+    "instructor": "한뉴스레터 마케터",
+    "rating": 4.8,
+    "studentsCount": 720,
+    "videos": [
+      {
+        "Id": 24,
+        "title": "뉴스레터 플랫폼 비교분석",
+        "videoId": "newsletter-platforms-601",
+        "duration": 40,
+        "order": 1
+      },
+      {
+        "Id": 25,
+        "title": "구독자 확보 전략",
+        "videoId": "subscriber-growth-602",
+        "duration": 45,
+        "order": 2
+      },
+      {
+        "Id": 26,
+        "title": "뉴스레터 디자인과 레이아웃",
+        "videoId": "newsletter-design-603",
+        "duration": 35,
+        "order": 3
+      },
+      {
+        "Id": 27,
+        "title": "콘텐츠 기획과 연재 전략",
+        "videoId": "content-series-604",
+        "duration": 30,
+        "order": 4
+      }
+    ]
+  }
+]
