@@ -10,9 +10,13 @@ const navigation = [
     { name: "Membership", path: "/membership", icon: "Crown" }
   ];
 
+  const adminNavigation = [
+    { name: "강의 관리", path: "/admin/courses", icon: "Shield" }
+  ];
+
   // Desktop sidebar - static positioning
   const DesktopSidebar = () => (
-    <div className="hidden lg:flex h-full w-64 bg-white/95 dark:bg-dark-surface/95 backdrop-blur-lg border-r border-gray-200 dark:border-gray-700">
+<div className="hidden lg:flex h-full w-64 bg-white/95 dark:bg-dark-surface/95 backdrop-blur-lg border-r border-gray-200 dark:border-gray-700">
       <div className="flex flex-col w-full">
         {/* Logo */}
         <div className="flex items-center justify-center h-16 px-6 border-b border-gray-200 dark:border-gray-700">
@@ -40,6 +44,32 @@ const navigation = [
               <span className="font-medium">{item.name}</span>
             </NavLink>
           ))}
+          
+          {/* Admin Section */}
+          <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="mb-2 px-4">
+              <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                Admin
+              </span>
+            </div>
+            {adminNavigation.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group",
+                    isActive
+                      ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400"
+                  )
+                }
+              >
+                <ApperIcon name={item.icon} className="w-5 h-5" />
+                <span className="font-medium">{item.name}</span>
+              </NavLink>
+            ))}
+          </div>
         </nav>
 
 {/* Bottom section */}
@@ -63,7 +93,7 @@ const navigation = [
     </div>
   );
 
-  // Mobile sidebar - overlay with transform
+// Mobile sidebar - overlay with transform
   const MobileSidebar = () => (
     <>
       {/* Backdrop */}
@@ -113,8 +143,34 @@ const navigation = [
                 <span className="font-medium">{item.name}</span>
               </NavLink>
             ))}
+            
+            {/* Admin Section */}
+            <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="mb-2 px-4">
+                <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  Admin
+                </span>
+              </div>
+              {adminNavigation.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
+                      isActive
+                        ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400"
+                    )
+                  }
+                >
+                  <ApperIcon name={item.icon} className="w-5 h-5" />
+                  <span className="font-medium">{item.name}</span>
+                </NavLink>
+              ))}
+            </div>
           </nav>
-
           {/* Bottom section */}
 <div className="p-4 border-t border-gray-200 dark:border-gray-700">
             <div className="bg-gradient-to-r from-accent-500/10 to-primary-500/10 rounded-lg p-4">

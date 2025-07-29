@@ -11,7 +11,7 @@ export const courseService = {
       });
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "description" } },
@@ -25,7 +25,9 @@ export const courseService = {
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
           { field: { Name: "difficulty" } },
-          { field: { Name: "status" } }
+          { field: { Name: "status" } },
+          { field: { Name: "category_slug" } },
+          { field: { Name: "video_id" } }
         ],
         orderBy: [
           {
@@ -63,7 +65,7 @@ export const courseService = {
       });
 
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "description" } },
@@ -77,7 +79,9 @@ export const courseService = {
           { field: { Name: "studentsCount" } },
           { field: { Name: "videos" } },
           { field: { Name: "difficulty" } },
-          { field: { Name: "status" } }
+          { field: { Name: "status" } },
+          { field: { Name: "category_slug" } },
+          { field: { Name: "video_id" } }
         ]
       };
 
