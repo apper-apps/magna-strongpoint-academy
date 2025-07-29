@@ -190,7 +190,7 @@ const Courses = () => {
         </motion.div>
       )}
 
-      {/* Upgrade CTA */}
+{/* Upgrade CTA */}
       {user?.role === "Free_User" && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -209,10 +209,19 @@ const Courses = () => {
               프리미엄으로 업그레이드하고 전체 강의를 수강하세요. 2-4단계 심화 과정과 마스터 전용 콘텐츠까지!
             </p>
             <div className="flex justify-center gap-4 pt-4">
-              <Button variant="primary" size="lg" rightIcon="ArrowRight">
+              <Button 
+                variant="primary" 
+                size="lg" 
+                rightIcon="ArrowRight"
+                onClick={() => window.location.href = '/membership'}
+              >
                 프리미엄 업그레이드
               </Button>
-              <Button variant="outline" size="lg">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => window.location.href = '/membership'}
+              >
                 요금제 비교
               </Button>
             </div>

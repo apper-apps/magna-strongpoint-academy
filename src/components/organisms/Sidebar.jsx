@@ -3,10 +3,11 @@ import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 
 const Sidebar = ({ isOpen, onClose, className }) => {
-  const navigation = [
+const navigation = [
     { name: "Dashboard", path: "/dashboard", icon: "LayoutDashboard" },
     { name: "Courses", path: "/courses", icon: "BookOpen" },
-    { name: "Community", path: "/community", icon: "Users" }
+    { name: "Community", path: "/community", icon: "Users" },
+    { name: "Membership", path: "/membership", icon: "Crown" }
   ];
 
   // Desktop sidebar - static positioning
@@ -41,7 +42,7 @@ const Sidebar = ({ isOpen, onClose, className }) => {
           ))}
         </nav>
 
-        {/* Bottom section */}
+{/* Bottom section */}
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <div className="bg-gradient-to-r from-accent-500/10 to-primary-500/10 rounded-lg p-4">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
@@ -50,9 +51,12 @@ const Sidebar = ({ isOpen, onClose, className }) => {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
               모든 강의와 기능을 이용해보세요
             </p>
-            <button className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-2 rounded-lg font-medium hover:from-accent-600 hover:to-accent-700 transition-all duration-200">
+            <NavLink
+              to="/membership"
+              className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-2 rounded-lg font-medium hover:from-accent-600 hover:to-accent-700 transition-all duration-200 flex items-center justify-center"
+            >
               업그레이드
-            </button>
+            </NavLink>
           </div>
         </div>
       </div>
@@ -112,7 +116,7 @@ const Sidebar = ({ isOpen, onClose, className }) => {
           </nav>
 
           {/* Bottom section */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+<div className="p-4 border-t border-gray-200 dark:border-gray-700">
             <div className="bg-gradient-to-r from-accent-500/10 to-primary-500/10 rounded-lg p-4">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                 프리미엄으로 업그레이드
@@ -120,9 +124,12 @@ const Sidebar = ({ isOpen, onClose, className }) => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                 모든 강의와 기능을 이용해보세요
               </p>
-              <button className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-2 rounded-lg font-medium hover:from-accent-600 hover:to-accent-700 transition-all duration-200">
+              <NavLink
+                to="/membership"
+                className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-2 rounded-lg font-medium hover:from-accent-600 hover:to-accent-700 transition-all duration-200 flex items-center justify-center"
+              >
                 업그레이드
-              </button>
+              </NavLink>
             </div>
           </div>
         </div>

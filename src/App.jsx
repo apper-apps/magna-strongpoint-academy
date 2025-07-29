@@ -5,6 +5,7 @@ import Landing from "@/components/pages/Landing";
 import Dashboard from "@/components/pages/Dashboard";
 import Courses from "@/components/pages/Courses";
 import Community from "@/components/pages/Community";
+import Membership from "@/components/pages/Membership";
 import { useDarkMode } from "@/hooks/useDarkMode";
 
 function App() {
@@ -15,11 +16,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/landing" element={<Landing />} />
-          <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="courses" element={<Courses />} />
             <Route path="community" element={<Community />} />
+            <Route path="membership" element={<Membership />} />
           </Route>
           <Route path="*" element={<Navigate to="/landing" replace />} />
         </Routes>
