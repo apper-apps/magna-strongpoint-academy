@@ -27,8 +27,7 @@ const [showUserMenu, setShowUserMenu] = useState(false);
                           </h1>
         </div>
         {/* Right section */}
-        <div className="flex items-center gap-4">
-            {/* Dark mode toggle */}
+<div className="flex items-center gap-4">
             {/* Dark mode toggle */}
             <button
                 onClick={() => setIsDark(!isDark)}
@@ -37,7 +36,8 @@ const [showUserMenu, setShowUserMenu] = useState(false);
                 <ApperIcon
                     name={isDark ? "Sun" : "Moon"}
                     className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                {/* Notifications */}
+            </button>
+            {/* Notifications */}
                 <button
                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative">
                     <ApperIcon name="Bell" className="w-5 h-5 text-gray-600 dark:text-gray-400" />
@@ -75,34 +75,34 @@ const [showUserMenu, setShowUserMenu] = useState(false);
                             <div className="mt-2">
                                 <RoleBadge role={user?.role} />
                             </div>
-                            <div className="p-2">
+</div>
+                        <div className="p-2">
+                            <button
+                                className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                                <ApperIcon name="User" className="w-4 h-4" />프로필 설정
+                            </button>
+                            <button
+                                className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                                <ApperIcon name="Settings" className="w-4 h-4" />환경 설정
+                            </button>
+                            <button
+                                className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                                <ApperIcon name="HelpCircle" className="w-4 h-4" />도움말
+                            </button>
+                            <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
                                 <button
-                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                                    <ApperIcon name="User" className="w-4 h-4" />프로필 설정
-                                                      </button>
-                                <button
-                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                                    <ApperIcon name="Settings" className="w-4 h-4" />환경 설정
-                                                      </button>
-                                <button
-                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                                    <ApperIcon name="HelpCircle" className="w-4 h-4" />도움말
-                                                      </button>
-                                <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
-                                    <button
-                                        onClick={() => {
-                                            logout();
-                                        }}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                                        <ApperIcon name="LogOut" className="w-4 h-4" />로그아웃
-                                                            </button>
-                                </div>
+                                    onClick={() => {
+                                        logout();
+                                    }}
+                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                                    <ApperIcon name="LogOut" className="w-4 h-4" />로그아웃
+                                </button>
                             </div>
                         </div>
                     </div>}
                 </div>
-            </button></div>
-    </div>
+            </div>
+        </div>
 </header>
   );
 };
