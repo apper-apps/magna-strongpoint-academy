@@ -1,28 +1,32 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { challengeService } from "@/services/api/challengeService";
+import { communityService } from "@/services/api/communityService";
+import { courseService } from "@/services/api/courseService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import RoleBadge from "@/components/molecules/RoleBadge";
 import ProgressRing from "@/components/molecules/ProgressRing";
+import RoleBadge from "@/components/molecules/RoleBadge";
 import CourseCard from "@/components/organisms/CourseCard";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
-import { useAuth } from "@/hooks/useAuth";
-import { courseService } from "@/services/api/courseService";
-import { communityService } from "@/services/api/communityService";
-
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 const Dashboard = () => {
   const { user } = useAuth();
   const [recommendedCourses, setRecommendedCourses] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 const [error, setError] = useState("");
-  const [showNextCourseBanner, setShowNextCourseBanner] = useState(false);
+const [showNextCourseBanner, setShowNextCourseBanner] = useState(false);
   const [nextCourse, setNextCourse] = useState(null);
+  const [monthlyChallenge, setMonthlyChallenge] = useState(null);
+  const [userParticipation, setUserParticipation] = useState(null);
+  const [challengeLeaderboard, setChallengeLeaderboard] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
     loadDashboardData();
+    loadChallengeData();
     
     // Check if banner should be shown (from localStorage or app state)
     const shouldShowBanner = localStorage.getItem('showNextCourseBanner') === 'true';
@@ -33,7 +37,7 @@ const [error, setError] = useState("");
 
   const loadDashboardData = async () => {
     setLoading(true);
-setError("");
+    setError("");
     
     try {
       const [coursesData, postsData] = await Promise.all([
@@ -55,12 +59,44 @@ setError("");
     }
   };
 
-  const handleVideoComplete = (completionData) => {
+  const loadChallengeData = async () => {
+    if (!user?.Id) return;
+    
+    try {
+      // Get current monthly challenge
+      const challenge = await challengeService.getCurrentChallenge();
+      if (challenge) {
+        setMonthlyChallenge(challenge);
+        
+        // Get user's participation in this challenge
+        const participation = await challengeService.getUserParticipation(challenge.Id, user.Id);
+        setUserParticipation(participation);
+        
+        // Get leaderboard
+        const leaderboard = await challengeService.getLeaderboard(challenge.Id, 5);
+        setChallengeLeaderboard(leaderboard);
+      }
+    } catch (error) {
+      console.error("Error loading challenge data:", error.message);
+    }
+  };
+
+const handleVideoComplete = async (completionData) => {
     // Show next course banner when video is completed
     setShowNextCourseBanner(true);
     localStorage.setItem('showNextCourseBanner', 'true');
     
-    // You could also trigger other actions here like updating user progress
+    // Update challenge progress when video is completed
+    if (monthlyChallenge && user?.Id) {
+      const updatedParticipation = await challengeService.incrementUserProgress(user.Id, monthlyChallenge.Id);
+      if (updatedParticipation) {
+        setUserParticipation(updatedParticipation);
+        // Refresh leaderboard
+        const leaderboard = await challengeService.getLeaderboard(monthlyChallenge.Id, 5);
+        setChallengeLeaderboard(leaderboard);
+      }
+    }
+    
     console.log('Video completed:', completionData);
   };
 
@@ -262,7 +298,93 @@ return (
             </div>
           </div>
         </div>
-      </motion.div>
+</motion.div>
+
+      {/* Monthly Challenge Widget */}
+      {monthlyChallenge && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-white dark:bg-dark-surface rounded-2xl p-6 shadow-lg border-2 border-gradient-to-r from-primary-200 to-accent-200 dark:border-gray-700"
+        >
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-accent-500 to-primary-500 rounded-xl flex items-center justify-center">
+                <ApperIcon name="Trophy" className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  월간 챌린지
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long' })} - 영상 4개 완주하기
+                </p>
+              </div>
+            </div>
+            <Badge variant={userParticipation?.completed ? "success" : "primary"}>
+              {userParticipation?.completed ? "완료" : "진행중"}
+            </Badge>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Progress Section */}
+            <div className="flex items-center gap-4">
+              <ProgressRing 
+                progress={userParticipation ? (userParticipation.progress / 4) * 100 : 0}
+                size={80}
+                strokeWidth={8}
+              />
+              <div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {userParticipation?.progress || 0}/4
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  영상 완료
+                </div>
+                {userParticipation?.completed && (
+                  <div className="text-sm text-accent-600 dark:text-accent-400 font-medium">
+                    🎉 챌린지 완료!
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Leaderboard Preview */}
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">리더보드 Top 5</h4>
+              <div className="space-y-2">
+                {challengeLeaderboard.slice(0, 5).map((participant) => (
+                  <div key={participant.participationId} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        {participant.rank}
+                      </span>
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        {participant.userName}
+                      </span>
+                      <RoleBadge role={participant.userRole} />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        {participant.progress}/4
+                      </span>
+                      {participant.completed && (
+                        <ApperIcon name="CheckCircle" className="w-4 h-4 text-green-500" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {challengeLeaderboard.length === 0 && (
+                  <div className="text-center text-gray-500 dark:text-gray-400 py-4">
+                    아직 참가자가 없습니다
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      )}
 
       {/* Recommended Courses */}
       <motion.section
