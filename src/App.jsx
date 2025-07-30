@@ -156,7 +156,7 @@ useEffect(() => {
     };
     
     initializeApp();
-  }, []);// No props and state should be bound
+}, []); // No props and state should be bound
   
   // Authentication methods to share via context
   const authMethods = {
